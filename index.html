@@ -229,6 +229,131 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/04/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81%E4%B8%AD%E7%9A%84%E4%BB%A3%E6%9B%BF%E5%AF%86%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2020/08/04/%E5%8F%A4%E5%85%B8%E5%AF%86%E7%A0%81%E4%B8%AD%E7%9A%84%E4%BB%A3%E6%9B%BF%E5%AF%86%E7%A0%81/" itemprop="url">古典密码 </a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-08-04T22:52:21+08:00">
+                2020-08-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="古典密码（一）"><a href="#古典密码（一）" class="headerlink" title="古典密码（一）"></a>古典密码（一）</h2><p>这篇主要记录了古典密码中代替密码的部分，换位密码放到下一篇古典密码（二）</p>
+<p>代替密码是一种最简单的加密文本方法，代替密码的目标就是加密文本，其思路就是将明文字符换成另外的字符。经典算法有移位、仿射、Vignere密码，OTP密码。主要用到的数学知识有整除与约简、同素数、乘法逆元等。数学知识有很多人讲的更好，我就不赘述了。<br>补充一点：在密码学中，一般x表示明文，y表示密文，k表示密钥。</p>
+<h2 id="移位密码"><a href="#移位密码" class="headerlink" title="移位密码"></a>移位密码</h2><p>算法原理：将明文消息中得每个字母移动k位，k为密钥，满足1≤k≤25。<br>加密算法：英文字母a<del>z用数字0</del>25表示，<br>                 y=f(x)=(x+k)%26，<br>                如：k=3，明文：cipher is good  其对应的密文为：flskhu lv jrrg，这也就是凯撒加密。<br>秘钥特征：加密秘钥和解密秘钥相同<br>                x=f(y)=(y-k)%26，<br>代替特征：单字母代替，单表代替，就是明文中相同字母替换成相同密文，如good→jrrg。<br>秘钥空间：移位密码的秘钥空间大小为25</p>
+<pre><code>秘钥空间的大小决定了穷举攻击的难度，那么要怎么才能增加秘钥空间，提高安全性呢？这就引出了我们下面的内容。</code></pre><h2 id="仿射密码"><a href="#仿射密码" class="headerlink" title="仿射密码"></a>仿射密码</h2><p>算法思想：增加秘钥参数，扩大秘钥空间。<br>加密算法：y=(ax+b)%26。<br>解密算法：x=[a^-1(y-b)]%26。<br>代替特征：单字母代替，单表代替，就是明文中相同字母替换成相同密文，如meet→hnns。<br>秘钥空间：由于a的乘法逆必须存在，所以秘钥空间为12*26-1=311。当a=1，b=0时，明文和密文相同，所以减1，但有的教材算上了这种特殊情况。<br>攻击方法：穷举攻击、唯密文攻击、选择明文攻击、已知明文攻击</p>
+<h2 id="Vignere密码"><a href="#Vignere密码" class="headerlink" title="Vignere密码"></a>Vignere密码</h2><p>算法原理：将明文消息中的每个字母移动ki位，ki为秘钥，满足0&lt;=ki&lt;=25<br>加密算法：秘钥是长度为m的序列，yi=（xi+k（i%m））%26<br>解密算法：xi=（yi-k（i%m））%26<br>秘钥特征：加密秘钥和解密秘钥相同<br>代替特征：单字母代替，多表代替，即明文中相同字母可能替换成不同的密文。但有着周期性的弱点，若两个字符出现的间隔是秘钥长度的倍数，则他们将以同样的方式加密。<br>秘钥空间：与秘钥长度m相关，多表代替26^m</p>
+<h2 id="OPT密码"><a href="#OPT密码" class="headerlink" title="OPT密码"></a>OPT密码</h2><p>算法原理：一次一密加密方式，明文和秘钥长度相等，秘钥本身只使用一次。<br>加密解密：类似Vignere密码<br>密码特点：秘钥和明文登场，克服了Vignere密码的易受重合指数攻击的缺点，但是密码本的产生、保存和传输非常重要，密钥空间和明文长度n有关，为26^n</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/28/%E5%AF%86%E7%A0%81%E5%AD%A6%E6%A6%82%E8%BF%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -626,7 +751,7 @@
               
                 <a href="/archives/%20%7C%7C%20archive">
               
-                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
